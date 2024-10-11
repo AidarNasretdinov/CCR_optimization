@@ -6,7 +6,7 @@ FIGMA_TOKEN = 'figd_DH6LThTSkIHiQMtZOyXsANtfCx2da4yWJxxnemHL'  # Заменит�
 FILE_ID = '9EUMkqC8y8RcB55XTWOzew'  # ID файла
 NODE_ID = '39046:942108'  # Node ID фрейма
 
-# URL для API запроса
+# URL для API
 base_url = f'https://api.figma.com/v1/files/{FILE_ID}/nodes?ids={NODE_ID}'
 
 # Заголовки запроса с токеном
