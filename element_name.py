@@ -1,10 +1,12 @@
 import requests
 import json
 
-FIGMA_TOKEN = 'figd_DH6LThTSkIHiQMtZOyXsANtfCx2da4yWJxxnemHL'
+# Ваш Figma токен и ID файла
+FIGMA_TOKEN = 'figd_DH6LThTSkIHiQMtZOyXsANtfCx2da4yWJxxnemHL'  # Замените на ваш токен доступа
 FILE_ID = '9EUMkqC8y8RcB55XTWOzew'  # ID файла
 NODE_ID = '39046:942108'  # Node ID фрейма
 
+# URL для API запроса
 base_url = f'https://api.figma.com/v1/files/{FILE_ID}/nodes?ids={NODE_ID}'
 
 # Заголовки запроса с токеном
@@ -17,7 +19,6 @@ response = requests.get(base_url, headers=headers)
 
 if response.status_code == 200:
     figma_data = response.json()
-
     frame_node = figma_data['nodes'][NODE_ID]['document']
 
     # Ищем элемент с именем 'body'
@@ -44,6 +45,12 @@ if response.status_code == 200:
                 # Проверяем, виден ли элемент
                 if element.get('visible', True):
                     element_name = element.get('name', 'Без имени')
+
+                    # Пропускаем элементы, содержащие 'footer' в названии
+                    if 'footer' in element_name.lower():
+                        print(f"Элемент '{element_name}' содержит 'footer' и пропущен.")
+                        continue
+
                     print(f"Найден элемент: {element_name}")
                     # Добавляем название элемента в список
                     extracted_elements.append(element_name)
