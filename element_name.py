@@ -1,61 +1,70 @@
-import requests
 import json
+import requests
+from dotenv import load_dotenv
+import os
 
-# Ваш Figma токен и ID файла
-FIGMA_TOKEN = 'figd_DH6LThTSkIHiQMtZOyXsANtfCx2da4yWJxxnemHL'  # Замените на ваш токен доступа
-FILE_ID = '9EUMkqC8y8RcB55XTWOzew'  # ID файла
-NODE_ID = '39046:942108'  # Node ID фрейма
+load_dotenv()
 
-# URL для API
+# figma token and id's
+FIGMA_TOKEN = os.getenv("FIGMA_TOKEN")  # create .env file and add personal figma token
+FILE_ID = '9EUMkqC8y8RcB55XTWOzew'  # ID file
+NODE_ID = '39046:942108'  # Node ID frame
+
+# API url
 base_url = f'https://api.figma.com/v1/files/{FILE_ID}/nodes?ids={NODE_ID}'
 
-# Заголовки запроса с токеном
+# headers request for token
 headers = {
     'X-Figma-Token': FIGMA_TOKEN
 }
 
-# Выполняем запрос к API Figma для получения информации о конкретном фрейме
+# request to figma API for exact frame info
 response = requests.get(base_url, headers=headers)
 
 if response.status_code == 200:
     figma_data = response.json()
     frame_node = figma_data['nodes'][NODE_ID]['document']
 
-    # Ищем элемент с именем 'body'
+    # searching for 'body' element
     body_element = next((child for child in frame_node.get('children', []) if child['name'] == 'body'), None)
 
     if body_element:
-        print(f"Элемент 'body' найден!")
+        print(f"Element 'body' found!")
 
-        # Ищем элемент с именем 'content' внутри 'body'
+        # searching for name 'content' inside 'body'
         content_element = next((child for child in body_element.get('children', []) if child['name'] == 'content'),
                                None)
         if not content_element:
-            print(f"Элемент с именем 'content' не найден.")
+            print(f"Element with name 'content' not found.")
         else:
-            print(f"Элемент 'content' найден!")
+            print(f"Element 'content' found!")
 
-            # Извлекаем элементы внутри 'content'
+            # extracting all elements from 'content'
             content_children = content_element.get('children', [])
 
             extracted_elements = []
 
-            # Проходим по всем элементам внутри 'content'
+            # go through all the elements inside 'content'
             for element in content_children:
-                # Проверяем, виден ли элемент
+                # checking element visible or not
                 if element.get('visible', True):
-                    element_name = element.get('name', 'Без имени')
+                    element_name = element.get('name', 'Without name')
 
-                    # Пропускаем элементы, содержащие 'footer' в названии
+                    """
+                     Skip element containing 'footer' in name.
+                     Temporary solution, in the next ver. footer will be an individual element inside 'body' frame.
+                     !!! For now 'footer' is an element of 'content' frame !!!
+                    """
+
                     if 'footer' in element_name.lower():
-                        print(f"Элемент '{element_name}' содержит 'footer' и пропущен.")
+                        print(f"Element '{element_name}' contains 'footer' and was skipped.")
                         continue
 
-                    print(f"Найден элемент: {element_name}")
-                    # Добавляем название элемента в список
+                    print(f"Element found: {element_name}")
+                    # adding element inside list
                     extracted_elements.append(element_name)
                 else:
-                    print(f"Элемент '{element.get('name', 'Без имени')}' скрыт и пропущен.")
+                    print(f"Element '{element.get('name', 'Without name')}' hidden and skipped.")
 
             json_data = {
                 "content_element": "content",
@@ -65,9 +74,9 @@ if response.status_code == 200:
             with open('output.json', 'w', encoding='utf-8') as json_file:
                 json.dump(json_data, json_file, ensure_ascii=False, indent=4)
 
-            print("JSON файл успешно создан!")
+            print("JSON has been created!")
     else:
-        print(f"Элемент с именем 'body' не найден.")
+        print(f"Element with name 'body' not found.")
 else:
-    print(f"Ошибка при запросе данных из Figma: {response.status_code}")
+    print(f"Error when requesting from Figma: {response.status_code}")
     print(response.text)
