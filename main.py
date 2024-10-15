@@ -268,19 +268,13 @@ if __name__ == "__main__":
         token = authenticate(username, password)
         if token:
             # user input hall uuid and lobby uuid
-            # x_node_id = input("Enter the HALL UUID (x-node-id): ")  # ("Enter the HALL UUID (x-node-id):
-            # uuid_to_fetch = input("Enter the LOBBY UUID: ")  # input("Enter the LOBBY UUID: ")
-            #
-            # figma_url = input("Please enter the Figma URL: ")
-            x_node_id = 'fcf5ab1b-d7b7-43b6-9dd7-ce6d62d4b5e7'  # ("Enter the HALL UUID (x-node-id):
-            uuid_to_fetch = 'fc691848-9e2f-4c82-a939-5d5bcf388651'  # input("Enter the LOBBY UUID: ")
+            x_node_id = input("Enter the HALL UUID (x-node-id): ")  # ("Enter the HALL UUID (x-node-id):
+            uuid_to_fetch = input("Enter the LOBBY UUID: ")  # input("Enter the LOBBY UUID: ")
 
-            figma_url = 'https://www.figma.com/design/tKZJbHcDHh5VJB6KIdYTQp/FLICK?node-id=3409-536213&node-type=frame&t=cNfvW1tmIZgjHJpl-0'
+            figma_url = input("Please enter the Figma URL: ")
             # Pass the URL to the main function
             figma_json(figma_url)
-            # FILE_ID = input("Enter the FILE_ID: ")
-            # NODE_ID = input("Enter the NODE_ID: ")
-            # figma_json(FILE_ID, NODE_ID)
+
 
             lobbyVersionId, headers = fetch_lobby_settings(uuid_to_fetch, token, x_node_id)  # fetch lobby settings
 
