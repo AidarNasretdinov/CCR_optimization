@@ -1,8 +1,9 @@
-# CCR Optimization
-The main goal of this optimization is to automate the widget setup process in product delivery. Automation will reduce the product delivery time by 3 days.
+# Optimization of Internal Processes
 
-Currently, the script works ONLY for the 'slider' widget of any type. However, the overall concept remains the same—we only need to add all our widgets to the reference file to enable it to work for all widgets on our platform.
+The main goal of this optimization is to automate the web app setup process during product delivery. Automation reduces the product delivery time by 3 days.
 
-!!!IMPORTANT!!!
+Currently, the script works only for the 'slider' widget, regardless of its type. However, the overall concept remains the same — we just need to add all our widgets to the reference file to enable it to work with all widgets on our platform.
 
-Before launching, add a .env file to your main directory and input the following for figma, MBO authentication: 'FIGMA_TOKEN', 'USERNAME', and 'PASSWORD'.
+IMPORTANT
+
+Before launching, add a .env file to your main directory and include the following for Figma and platform authentication: FIGMA_TOKEN, USERNAME, and PASSWORD.
